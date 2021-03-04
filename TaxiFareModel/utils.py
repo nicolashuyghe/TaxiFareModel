@@ -9,7 +9,7 @@ def haversine_vectorized(df,
                          end_lat="dropoff_latitude",
                          end_lon="dropoff_longitude"):
     """
-        Calculate the great circle distance between two points 
+        Calculate the great circle distance between two points
         on the earth (specified in decimal degrees).
         Vectorized version of the haversine distance for pandas df
         Computes distance in kms

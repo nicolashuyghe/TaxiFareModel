@@ -78,4 +78,12 @@ if __name__ == '__main__':
 
     # ⚠️ in order to push a submission to kaggle you need to use the WHOLE dataset
     nrows = 100
-    generate_submission_csv(nrows, kaggle_upload=False)
+    # generate_submission_csv(nrows, kaggle_upload=False)
+
+    '''TEST'''
+    df_test = get_test_data(nrows)
+    print(df_test)
+    pipeline = joblib.load('model.joblib')
+    y_pred = pipeline.predict(df_test)
+    print(y_pred)
+

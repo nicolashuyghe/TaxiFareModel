@@ -18,8 +18,6 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-PATH_TO_LOCAL_MODEL = 'model.joblib'
-
 # Definition to retrieve model from Google Cloud storage
 def download_model(model_directory=MODEL_VERSION, bucket=BUCKET_NAME, rm=False):
     client = storage.Client().bucket(bucket)
@@ -40,20 +38,17 @@ def download_model(model_directory=MODEL_VERSION, bucket=BUCKET_NAME, rm=False):
 def index(pickup_datetime, pickup_longitude, pickup_latitude, dropoff_latitude, dropoff_longitude, passenger_count ):
     params = {
         'key': ['2015-01-27 13:08:24.0000002'],
-        'pickup_datetime': [pickup_datetime],
+        'pickup_datetime': [str(pickup_datetime)],
         'pickup_longitude': [float(pickup_longitude)],
         'pickup_latitude': [float(pickup_latitude)],
          'dropoff_longitude': [float(dropoff_longitude)],
-        'dropoff_latitude' : [float(dropoff_latitude)],
-        'passenger_count': [int(passenger_count)],
+        'dropoff_latitude': [float(dropoff_latitude)],
+        'passenger_count': [int(passenger_count)]
     }
 
     X_pred = pd.DataFrame.from_dict(params)
-    print(X_pred.shape)
-    # model = download_model(model_directory=MODEL_VERSION, bucket=BUCKET_NAME, rm=True)
     model = joblib.load('model.joblib')
     y_pred = model.predict(X_pred)
-    print(y_pred)
     y_pred = y_pred.tolist()[0]
 
     return {
